@@ -1,4 +1,4 @@
-from common import *
+#!/usr/bin/python3 -O
 import partitioning
 import file_system
 import grub
@@ -12,6 +12,13 @@ def main(opts):
     grub.install(opts)
     grub.configure(opts)
 
-opts = dbg_opts
-main(dbg_opts)
+dbg_opts = {}
+dbg_opts['pt_type'] = 'mbr'
+dbg_opts['target_device'] = '/dev/sdc'
+dbg_opts['fs_type'] = 'ext2'
+
+if not __debug__:
+    pass
+else:
+    main(dbg_opts)
 
