@@ -11,8 +11,8 @@ def make_partition_table(target_device, part_name, **kwargs):
     which would eventually contain GRUB and ISO's
     """
     delete_parttable = 'sgdisk --zap-all ' + target_device
-    create_grub_partition = 'sgdisk --new=0:0:+1M --typecode=0:0xEF02'
-    create_boot_partition = 'sgdisk --new=0:0:0 --change-name=0:"' + part_name + '" '
+    create_grub_partition = 'sgdisk --new=1:0:+1M --typecode=1:ef02 ' + target_device
+    create_boot_partition = 'sgdisk --new=2:0:0 --change-name=1:"' + part_name + '" '
     create_boot_partition = create_boot_partition + target_device
     print(delete_parttable)
     print(create_grub_partition)

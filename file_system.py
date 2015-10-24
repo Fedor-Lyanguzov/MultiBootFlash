@@ -12,11 +12,11 @@ def mount(boot_partition, **kwargs):
         os.system(mkdir)
         os.system(mount)
         
-def make_fs(boot_partition, fs_type, **kwargs):
+def make_fs(boot_partition, fs_type, part_name, **kwargs):
     """
     Making ``fs_type`` filesystem on ``boot_partition``
     """
-    make_filesystem = 'mkfs -t ' + fs_type + ' ' + boot_partition
+    make_filesystem = 'mkfs -t ' + fs_type + ' -L ' + part_name +' '+ boot_partition
     print(make_filesystem)
     if not __debug__:
         os.system(make_filesystem)

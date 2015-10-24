@@ -4,7 +4,7 @@ import partitioning
 import file_system
 import grub
 
-def create(opts):
+def create(**opts):
     opts['boot_partition'] = partitioning.make_partition_table(**opts)
     file_system.make_fs(**opts)
     file_system.mount(**opts)
@@ -22,20 +22,24 @@ def arguments():
     parser = argparse.ArgumentParser()
     subparsers = parser.add_subparsers()
 
-    create = subparsers.add_parser('create')
-    create.set_defaults(func=create)
+    p_create = subparsers.add_parser('create')
+    p_create.set_defaults(func=create)
+    p_create.set_defaults(target_device='/dev/sdb')
+    p_create.set_defaults(pt_type='gpt')
+    p_create.set_defaults(fs_type='ext2')
+    p_create.set_defaults(part_name='bootflash')
     
-    update = subparsers.add_parser('update')
-    update.set_defaults(func=update)
+    p_update = subparsers.add_parser('update')
+    p_update.set_defaults(func=update)
     
-    upgrade = subparsers.add_parser('upgrade')
-    upgrade.set_defaults(func=upgrade)
+    p_upgrade = subparsers.add_parser('upgrade')
+    p_upgrade.set_defaults(func=upgrade)
 
     return parser.parse_args()
 
 if not __debug__:
     args = arguments()
-    args.func(args)
+    args.func(**vars(args))
 else:
     dbg_opts = {}
     dbg_opts['pt_type'] = 'gpt'
